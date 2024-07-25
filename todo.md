@@ -1,0 +1,5 @@
+- Asteroid spawn timer
+- Highscore saving/loading
+- Highscore display
+- Highscore nickname input
+- Networked multiplayer
