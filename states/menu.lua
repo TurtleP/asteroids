@@ -7,17 +7,16 @@ local asteroid = require("classes.entities.asteroid")
 menu._title = "Asteroids"
 menu._items =
 {
-    { text = "Play",       transition = "game"       },
+    { text = "Play",       transition = "game" },
     { text = "Highscores", transition = "highscores" }
 }
-
-menu._asteroids = {}
 
 function menu:enter(parent)
     self._font = love.graphics.newFont("graphics/asteroids-display.otf", 48)
     self._selection_font = love.graphics.newFont("graphics/asteroids-display.otf", 32)
 
     self._title_pos = vec2((400 - self._font:getWidth(menu._title)) * 0.5, (240 * 0.25))
+    self._asteroids = {}
 
     sound.title:play()
 
@@ -26,15 +25,15 @@ function menu:enter(parent)
         local x = screen == "top" and 400 or 320
 
         local position = vec2(love.math.random(x), love.math.random(240))
-        menu._asteroids[#menu._asteroids + 1] = asteroid(position, 3, screen)
+        self._asteroids[#menu._asteroids + 1] = asteroid(position, 3, screen)
     end
 
     self._transition = nil
-    self._selection  = 1
+    self._selection = 1
 end
 
 function menu:update(dt)
-    for _, value in ipairs(menu._asteroids) do
+    for _, value in ipairs(self._asteroids) do
         value:update(dt)
     end
 
@@ -42,7 +41,7 @@ function menu:update(dt)
 end
 
 function menu:draw(screen, iod)
-    for _, value in ipairs(menu._asteroids) do
+    for _, value in ipairs(self._asteroids) do
         value:draw(screen)
     end
 
@@ -85,4 +84,3 @@ function menu:exit()
 end
 
 return menu
-

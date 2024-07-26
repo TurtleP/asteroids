@@ -44,11 +44,11 @@ function game:enter()
     generateStarLayers()
     world.init(self)
 
-    self.players = {}
+    self._players = {}
     for index = 1, VAR("players") do
         local player = ship(index)
         world.addObject(self, player)
-        table.insert(self.players, player)
+        table.insert(self._players, player)
     end
 
     sound.theme:play()
@@ -58,7 +58,7 @@ function game:enter()
         world.addObject(self, asteroid(position, 3, screen))
     end
 
-    self._lives_counter = livescounter(self.players[1])
+    self._lives_counter = livescounter(self._players[1])
     self._score_counter = scorecounter()
 
     self._asteroid_timer = timer(5, nil, function()
@@ -66,6 +66,31 @@ function game:enter()
         if count >= 10 then return end
         spawnAroundArea()
     end, true)
+
+    self._transition = nil
+
+    self._alive_checked = false
+    self._gameover_timer = timer(3, nil, function()
+        self._transition = "highscores"
+    end)
+end
+
+function game:checkAllAlive()
+    if self._alive_checked then return end
+
+    local count = 0
+    for index = 1, #self._players do
+        if self._players[index]:dead() then
+            count = count + 1
+        end
+    end
+
+    local result = (count ~= #self._players)
+    if not result and not self._alive_checked then
+        sound.gameover:play()
+        self._alive_checked = true
+    end
+    return result
 end
 
 function game:update(dt)
@@ -73,6 +98,11 @@ function game:update(dt)
         for _, v in ipairs(layer.stars) do
             v:update(dt)
         end
+    end
+
+    if not self:checkAllAlive() then
+        self._gameover_timer:update(dt)
+        return self._transition
     end
 
     self._asteroid_timer:update(dt)
@@ -93,12 +123,12 @@ end
 
 function game:gamepadpressed(button)
     if button == "a" then
-        self.players[1]:shoot()
+        self._players[1]:shoot()
     end
 end
 
 function game:gamepadaxis(axis, value)
-    self.players[1]:gamepadaxis(axis, value)
+    self._players[1]:gamepadaxis(axis, value)
 end
 
 function game:addObject(object)

@@ -43,6 +43,10 @@ function state_machine:current_state()
     return self.states[self.current_state_name]
 end
 
+function state_machine:previous_state()
+    return self.states[self.prev_state_name]
+end
+
 -------------------------------------------------------------------------------
 --internal helpers
 

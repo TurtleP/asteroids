@@ -56,14 +56,27 @@ function loading:new(screen)
     self._screen = screen
     self._index = 1
     self._timer = 0
+
+    self._should_draw = false
+    self._life_timer = timer(3, nil, function()
+        self._should_draw = false
+    end
+end
+
+function loading:activate()
+    self._should_draw = true
 end
 
 function loading:update(dt)
+    if not self._should_draw then return end
+
     self._timer = self._timer + 16 * dt
     self._index = math.floor(self._timer % #glyphs) + 1
 end
 
 function loading:draw(screen)
+    if not self._should_draw then return end
+
     for y = 1, 3 do
         for x = 1, 3 do
             local current = glyphs[self._index][y][x]

@@ -14,9 +14,10 @@
   ],
   "hint.enable": true,
   "format.defaultConfig": {
-    "indent_stle": "space",
+    "indent_style": "space",
     "indent_size": "2",
     "insert_final_newline": "true",
-    "space_around_table_field_list": "true"
+    "space_around_table_field_list": "true",
+    "align_continuous_assign_statement": "false"
   }
 }

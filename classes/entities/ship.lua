@@ -1,20 +1,20 @@
-local object         = require("classes.object")
-local ship           = class({ name = "ship", extends = object })
+local object = require("classes.object")
+local ship = class({ name = "ship", extends = object })
 
-local bullet         = require("classes.entities.bullet")
+local bullet = require("classes.entities.bullet")
 
-local sound          = require("modules.sound")
-local explosion      = require("classes.particles.shipexplosion")
+local sound = require("modules.sound")
+local explosion = require("classes.particles.shipexplosion")
 
-ship._rotate_speed   = 2
-ship._speed          = 100
-ship._drag           = 0.75
-ship._max_speed      = ship._speed
-ship._max_flashes    = 12
+ship._rotate_speed = 4
+ship._speed = 100
+ship._drag = 0.75
+ship._max_speed = ship._speed
+ship._max_flashes = 12
 ship._start_position = vec2((400 - 20) / 2, (240 - 20) / 2)
-ship._shoot_delay    = 0.5
+ship._shoot_delay = 0.5
 
-ship._player_colors  =
+ship._player_colors =
 {
     0xFFFFFF,
     0xF44336,
@@ -22,7 +22,7 @@ ship._player_colors  =
     0x2196F3
 }
 
-ship._thrust_colors  =
+ship._thrust_colors =
 {
     0xFF5722,
     0xFF3D00
@@ -186,6 +186,10 @@ function ship:shoot()
     states:_call("addObject", bullet(self, position, angle, self:screen()))
 
     self._can_shoot = false
+end
+
+function ship:dead()
+    return (not self:alive() and self:lives() == 0)
 end
 
 function ship:invincible()

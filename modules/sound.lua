@@ -6,10 +6,11 @@ sound.title:setLooping(true)
 sound.theme = love.audio.newSource("audio/bgm.ogg", "stream")
 sound.theme:setLooping(true)
 
-sound.fire        = love.audio.newSource("audio/fire.ogg", "static")
-sound.thrust      = love.audio.newSource("audio/thrust.ogg", "static")
+sound.gameover = love.audio.newSource("audio/gameover.ogg", "static")
+sound.fire = love.audio.newSource("audio/fire.ogg", "static")
+sound.thrust = love.audio.newSource("audio/thrust.ogg", "static")
 
-sound.explosions  =
+sound.explosions =
 {
     love.audio.newSource("audio/bangSmall.ogg", "static"),
     love.audio.newSource("audio/bangMedium.ogg", "static"),

@@ -6,6 +6,7 @@ require("util")
 states = require("states")
 
 function love.load()
+    love.audio.setVolume(VAR("volume"))
 end
 
 function love.update(dt)
@@ -14,6 +15,10 @@ end
 
 function love.draw(screen, iod)
     states:_call("draw", screen, iod)
+end
+
+function love.textinput(text)
+    states:_call("textinput", text)
 end
 
 function love.gamepadpressed(_, button)
@@ -28,4 +33,8 @@ function love.gamepadaxis(_, axis, value)
     states:_call("gamepadaxis", axis, value)
 end
 
-require("libraries.nest").init()
+function love.keypressed(key)
+    states:_call("keypressed", key)
+end
+
+IS_NEST_LOADED = require("libraries.nest").init({ emulate_joystick = false })
